@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>جستجوی گنج عاشقانه</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Mute button -->
+  <button class="mute-btn" id="muteBtn" title="صدا">🔇</button>
+
+  <button class="reset-btn" id="resetBtn" onclick="resetGame()">🔄 شروع از اول</button>
+
+  <!-- ══════════════ STAGE 1 – THE DOOR ══════════════ -->
+  <section class="stage" id="stage1">
+    <div class="stage1-content">
+      <div class="stage1-title">
+        <span class="sparkle">✨</span>
+        <h1>برای ورود، عدد ماه تولدت را وارد کن.</h1>
+        <span class="sparkle">✨</span>
+      </div>
+
+      <div class="door-scene">
+        <div class="door-frame">
+          <div class="door" id="door">
+            <div class="door-panel left-panel">
+              <div class="door-ornament"></div>
+              <div class="door-knocker"></div>
+            </div>
+            <div class="door-panel right-panel">
+              <div class="door-ornament"></div>
+            </div>
+            <div class="door-light"></div>
+          </div>
+          <div class="door-steps"></div>
+        </div>
+      </div>
+
+      <div class="input-card glass-card">
+        <input
+          type="text"
+          id="doorPassword"
+          class="fancy-input"
+          placeholder="رمز را وارد کنید..."
+          maxlength="4"
+          autocomplete="off"
+        />
+        <button class="btn-primary" id="doorBtn" onclick="checkDoor()">
+          <span>باز کردن در</span>
+          <span class="btn-icon">🗝️</span>
+        </button>
+        <p class="error-msg" id="doorError"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ STAGE 2 – THE GUARD ══════════════ -->
+  <section class="stage hidden" id="stage2">
+    <div class="stage2-content">
+      <div class="guard-scene">
+        <div class="speech-bubble" id="guardSpeech">
+          من نگهبان اولین سرنخ هستم و هنوز از هویت واقعی تو مطمئن نیستم.
+          به سوالات من با دقت پاسخ بده. در صورت اطمینان اولین سرنخ بهت داده می‌شود.
+        </div>
+        <div class="guard-figure">
+          <div class="guard-body">
+            <div class="guard-head">
+              <div class="guard-hat"></div>
+              <div class="guard-face">
+                <div class="guard-eyes">
+                  <div class="guard-eye"></div>
+                  <div class="guard-eye"></div>
+                </div>
+                <div class="guard-mustache"></div>
+                <div class="guard-mouth"></div>
+              </div>
+            </div>
+            <div class="guard-torso">
+              <div class="guard-badge">⭐</div>
+              <div class="guard-belt"></div>
+            </div>
+            <div class="guard-legs">
+              <div class="guard-leg"></div>
+              <div class="guard-leg"></div>
+            </div>
+          </div>
+          <div class="guard-spear">
+            <div class="spear-blade"></div>
+            <div class="spear-shaft"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="questions-container glass-card" id="questionsContainer">
+        <!-- Questions injected by JS -->
+      </div>
+
+      <button class="btn-primary" id="submitGuardBtn" onclick="submitGuard()">
+        <span>ارسال پاسخ‌ها</span>
+        <span class="btn-icon">⚔️</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ══════════════ CLUE SCREEN ══════════════ -->
+  <section class="stage hidden" id="stageClue">
+    <div class="clue-content">
+      <div class="guard-verdict glass-card" id="guardVerdict"></div>
+
+      <div class="clue-card glass-card">
+        <div class="clue-icon">🗺️</div>
+        <h2 class="clue-title">اولین سرنخ</h2>
+        <p class="clue-text">
+          از طبقه هم‌کف یک چیزی برداشتیم که تو برای اره کردنش آن را اندازه یک وسیله درآوردی
+          و باقی‌مانده‌اش را در تراس قرار دادیم.
+          <br /><br />
+          اولین سرنخ را آنجا می‌توانی پیدا کنی.
+        </p>
+        <button class="btn-primary btn-gold" onclick="goToStage3()">
+          <span>سرنخ را پیدا کردم</span>
+          <span class="btn-icon">🔍</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ STAGE 3 – FINAL RIDDLE ══════════════ -->
+  <section class="stage hidden" id="stage3">
+    <div class="stage3-content">
+      <div class="riddle-card glass-card">
+        <div class="riddle-icon">🎨</div>
+        <p class="riddle-text">
+          خیلی از آثار هنری تو به خانه زیبایی داده ولی چند اثر دیگر باید به خانه بیاید
+          که در حال حاضر جای خالی‌شان در خانه جدید به وضوح دیده می‌شود.
+          <br /><br />
+          آن را کامل در دستت بگیر و با دقت نگاهش کن.
+        </p>
+
+        <div class="code-input-group">
+          <div class="code-digits">
+            <input type="text" class="code-digit" maxlength="1" id="d1" oninput="digitInput(this,'d2')" inputmode="numeric" />
+            <input type="text" class="code-digit" maxlength="1" id="d2" oninput="digitInput(this,'d3')" inputmode="numeric" />
+            <input type="text" class="code-digit" maxlength="1" id="d3" oninput="digitInput(this,'d4')" inputmode="numeric" />
+            <input type="text" class="code-digit" maxlength="1" id="d4" oninput="digitInput(this,null)" inputmode="numeric" />
+          </div>
+          <button class="btn-primary btn-gold" onclick="checkFinalCode()">
+            <span>تأیید</span>
+            <span class="btn-icon">🔐</span>
+          </button>
+          <p class="error-msg" id="finalError"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ VICTORY SCREEN ══════════════ -->
+  <section class="stage hidden" id="stageVictory">
+    <div class="victory-content">
+      <div class="treasure-chest" id="treasureChest">
+        <div class="chest-body">
+          <div class="chest-lid" id="chestLid">
+            <div class="chest-lid-band"></div>
+            <div class="chest-lock">🔒</div>
+          </div>
+          <div class="chest-base">
+            <div class="chest-band"></div>
+            <div class="chest-shine"></div>
+          </div>
+        </div>
+        <div class="chest-glow"></div>
+      </div>
+
+      <div class="victory-message glass-card" id="victoryMessage">
+        <p class="victory-main-text">شی گمشده در صندوقچه هست، اونو پیدا کن و شی گمشده به صاحب اصلیش برگردون.</p>
+      </div>
+
+      <div class="confetti-container" id="confettiContainer"></div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
